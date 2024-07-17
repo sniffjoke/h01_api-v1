@@ -9,3 +9,7 @@ export const getVideoController = (req: Request, res: Response<any>) => {
         .status(200)
         .json(videos)
 }
+
+// createVideoController
+// findVideoController
+// deleteVideoController

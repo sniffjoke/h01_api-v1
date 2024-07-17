@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import {SETTINGS} from "./settings";
-import {getVideoController} from "../videos/getVideoController";
+import {getVideoController} from "../videos/videoController";
 
 export const app = express()
 app.use(express.json())

@@ -13,7 +13,6 @@ describe('/videos', () => {
         const res = await req
             .get(SETTINGS.PATH.VIDEOS)
             .expect(200)
-
         console.log(res.body)
     });
 })
