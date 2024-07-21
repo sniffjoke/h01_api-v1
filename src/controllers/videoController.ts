@@ -14,24 +14,24 @@ export const getVideoController = (req: Request, res: Response) => {
 }
 
 export const createVideoController = (req: Request, res: Response) => {
-    const {title, author, availableResolution} = req.body
-    // if (!title || !author || !availableResolution) {
-    //     res.status(400).json({
-    //         "errorsMessages": [
-    //             {
-    //                 "message": "Все поля обязательны для заполнения",
-    //                 "field": "string"
-    //             }
-    //         ]
-    //     })
-    //     return
-    // }
+    const {title, author, availableResolutions} = req.body
+    if (!title || !author || !availableResolutions) {
+        res.status(400).json({
+            "errorsMessages": [
+                {
+                    "message": "Все поля обязательны для заполнения",
+                    "field": "string"
+                }
+            ]
+        })
+        return
+    }
     const newVideo = {
         ...req.body,
         id: Date.now() + Math.random(),
         title,
         author,
-        availableResolution,
+        availableResolutions,
         createdAd: new Date().toISOString(),
     }
     db.videos = [...db.videos, newVideo]
