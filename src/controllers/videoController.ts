@@ -1,6 +1,15 @@
 import {db} from "../../db/db";
 import {Request, Response} from 'express'
-import {IVideoDto} from "./types/IVideo.dto";
+import {IVideoDto, ResolutionType} from "./types/IVideo.dto";
+
+type ErrorType = {
+    message: string;
+    field: string;
+}
+
+interface OutputErrorsType {
+    errorsMessages: ErrorType[]
+}
 
 const findVideoById = (videoId: number) => {
     return db.videos.find((video: IVideoDto) => videoId === video.id)
@@ -13,26 +22,59 @@ export const getVideoController = (req: Request, res: Response) => {
         .json(videos)
 }
 
-export const createVideoController = (req: Request, res: Response) => {
-    const {title, author, availableResolutions} = req.body
-    if (!title || !author || !availableResolutions) {
-        res.status(400).json({
-            errorsMessages: [
-                {
-                    "message": "Все поля обязательны для заполнения",
-                    field: "title"
-                }
-            ]
+const inputValidation = (video: IVideoDto) => {
+    const errors: OutputErrorsType = { // объект для сбора ошибок
+        errorsMessages: []
+    }
+    if (!Array.isArray(video.availableResolutions)
+        || video.availableResolutions.find(p => !ResolutionType[p])
+    ) {
+        errors.errorsMessages.push({
+            message: 'error!!!!',
+            field: 'availableResolutions'
         })
+    }
+    if (typeof video.title !== 'string') {
+        errors.errorsMessages.push({
+            message: 'Название должно быть текстовым',
+            field: 'title'
+        })
+    }
+    if (Number(video.title) !== 0 && !video.title || !video.author || !video.availableResolutions) {
+        errors.errorsMessages.push({
+            message: 'Название не может быть пустым',
+            field: 'title'
+        })
+    }
+    if (Number(video.title) === 0) {
+        errors.errorsMessages.push({
+            message: 'Название не может быть нолем',
+            field: 'title'
+        })
+    }
+
+    return errors
+}
+
+export const createVideoController = (req: Request<any, any, IVideoDto>, res: Response<any | OutputErrorsType>) => {
+    const {title, author, availableResolutions} = req.body
+    console.log(Number(title) === 0)
+    const errors = inputValidation(req.body)
+    if (errors.errorsMessages.length) {
+        res.status(400).json(errors)
         return
     }
+    let dateCreate = new Date()
     const newVideo = {
         ...req.body,
         id: Date.now() + Math.random(),
         title,
         author,
         availableResolutions,
-        createdAd: new Date().toISOString(),
+        createdAd: dateCreate.toISOString(),
+        canBeDownloaded: false,
+        minAgeRestriction: null,
+        publicationDate: new Date(dateCreate.getTime() + 86400000).toISOString(),
     }
     db.videos = [...db.videos, newVideo]
     res.status(201).send(newVideo)
@@ -58,9 +100,3 @@ export const deleteVideoController = (req: Request, res: Response) => {
     db.videos = db.videos.filter((video: IVideoDto) => id !== video.id)
     res.status(204)
 }
-
-
-
-
-
-// findVideoController

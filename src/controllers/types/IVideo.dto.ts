@@ -1,5 +1,5 @@
 
-enum ResolutionType {
+export enum ResolutionType {
     "P144",
     "P240",
     "P360",
@@ -18,5 +18,5 @@ export type IVideoDto = {
     minAgeRestriction?: number
     createdAd?: string
     publicationDate?: string
-    availableResolution?: [ResolutionType]
+    availableResolutions?: [ResolutionType]
 }
