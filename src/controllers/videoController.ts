@@ -17,10 +17,10 @@ export const createVideoController = (req: Request, res: Response) => {
     const {title, author, availableResolutions} = req.body
     if (!title || !author || !availableResolutions) {
         res.status(400).json({
-            "errorsMessages": [
+            errorsMessages: [
                 {
                     "message": "Все поля обязательны для заполнения",
-                    "field": "string"
+                    field: "title"
                 }
             ]
         })
