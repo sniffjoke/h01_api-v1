@@ -1,7 +1,8 @@
-import express, {NextFunction, Request, Response} from "express";
+import express from "express";
 import cors from "cors";
 import {SETTINGS} from "./settings";
 import videoRoutes from "./routes/videoRoutes";
+import testingRoutes from "./routes/testingRoutes";
 
 export const app = express()
 app.use(express.json())
@@ -14,8 +15,4 @@ app.get('/', (req, res) => {
 // app.get(SETTINGS.PATH.VIDEOS, getVideoController)
 app.use(express.urlencoded({extended: false}))
 app.use(SETTINGS.PATH.VIDEOS, videoRoutes)
-
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status ? res.status : res.status(500)
-    res.json(error)
-})
+app.use(SETTINGS.PATH.TESTING, testingRoutes)
