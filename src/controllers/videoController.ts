@@ -97,6 +97,10 @@ export const updateVideoController = (req: Request, res: Response<any | OutputEr
     if (video) {
         video.title = req.body.title
     }
+    const updatedVideo: IVideoDto = {
+        ...req.body,
+        title: video.title
+    }
     res.status(204).send(video)
 }
 
