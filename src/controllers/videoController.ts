@@ -58,12 +58,12 @@ const inputValidation = (video: IVideoDto) => {
             field: 'canBeDownloaded'
         })
     }
-    // if (video.title.length > 40) {
-    //     errors.errorsMessages.push({
-    //         message: 'Название не может быть более 40 символов',
-    //         field: 'title'
-    //     })
-    // }
+    if (video.title.length > 40) {
+        errors.errorsMessages.push({
+            message: 'Название не может быть более 40 символов',
+            field: 'title'
+        })
+    }
 
     return errors
 }
