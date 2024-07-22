@@ -91,13 +91,13 @@ export const findVideoController = (req: Request, res: Response) => {
     res.status(200).send(video)
 }
 
-export const updateVideoController = (req: Request, res: Response) => {
+export const updateVideoController = (req: Request, res: Response<any | OutputErrorsType>) => {
     const id = Number(req.params.id)
     const video: IVideoDto = findVideoById(id)
     if (video) {
         video.title = req.body.title
     }
-    res.status(201).send(video)
+    res.status(204).send(video)
 }
 
 export const deleteVideoController = (req: Request, res: Response) => {
