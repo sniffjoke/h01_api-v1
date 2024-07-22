@@ -40,7 +40,7 @@ const inputValidation = (video: IVideoDto) => {
             field: 'title'
         })
     }
-    if (Number(video.title) !== 0 && video.title !== null && !video.title || !video.author || !video.availableResolutions) {
+    if (Number(video.title) !== 0 && video.title !== null && !video.title) {
         errors.errorsMessages.push({
             message: 'Название не может быть пустым',
             field: 'title'
@@ -139,14 +139,14 @@ export const updateVideoController = (req: Request, res: Response<any | OutputEr
         publicationDate
     } = req.body
     if (video) {
-        video.title = title
-        video.id = id
-        video.author = author
-        video.availableResolutions = availableResolutions
-        video.createdAt = createdAt
-        video.canBeDownloaded = canBeDownloaded
-        video.minAgeRestriction = minAgeRestriction
-        video.publicationDate = publicationDate
+        video.title = title ? title : video.title
+        video.id = id ? id : video.id
+        video.author = author ? author : video.author
+        video.availableResolutions = availableResolutions ? availableResolutions : video.availableResolutions
+        video.createdAt = createdAt ? createdAt : video.createdAt
+        video.canBeDownloaded = canBeDownloaded ? canBeDownloaded : video.canBeDownloaded
+        video.minAgeRestriction = minAgeRestriction ? minAgeRestriction : video.minAgeRestriction
+        video.publicationDate = publicationDate ? publicationDate : video.publicationDate
         res.status(204).send('Видео изменено')
     } else {
         res.status(404).send('Видео с данным id не найдено')
