@@ -76,7 +76,7 @@ export const createVideoController = (req: Request<any, any, IVideoDto>, res: Re
         title,
         author,
         availableResolutions,
-        createdAd: dateCreate.toISOString(),
+        createdAt: dateCreate.toISOString(),
         canBeDownloaded: false,
         minAgeRestriction: null,
         publicationDate: new Date(dateCreate.getTime() + 86400000).toISOString(),

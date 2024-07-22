@@ -16,7 +16,7 @@ export type IVideoDto = {
     author: string
     canBeDownloaded?: boolean
     minAgeRestriction?: number
-    createdAd?: string
+    createdAt?: string
     publicationDate?: string
     availableResolutions?: [ResolutionType]
 }
