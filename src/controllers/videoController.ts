@@ -52,7 +52,7 @@ const inputValidation = (video: IVideoDto) => {
             field: 'title'
         })
     }
-    if (typeof video.canBeDownloaded !== 'boolean') {
+    if (video.canBeDownloaded && typeof video.canBeDownloaded !== "boolean") {
         errors.errorsMessages.push({
             message: 'Нужно указать булевое значение',
             field: 'canBeDownloaded'
