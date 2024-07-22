@@ -130,23 +130,26 @@ export const updateVideoController = (req: Request, res: Response<any | OutputEr
     } = req.body
     if (video) {
         video.title = title
+        video.id = id
+        video.author = author
+        video.availableResolutions = availableResolutions
+        video.createdAt = createdAt
+        video.canBeDownloaded = canBeDownloaded
+        video.minAgeRestriction = minAgeRestriction
+        video.publicationDate = publicationDate
+        res.status(204).send('Видео изменено')
+    } else {
+        res.status(404).send('Видео с данным id не найдено')
     }
-    const updatedVideo: IVideoDto = {
-        ...req.body,
-        id,
-        title: video.title,
-        author,
-        availableResolutions,
-        createdAt,
-        canBeDownloaded,
-        minAgeRestriction,
-        publicationDate,
-    }
-    res.status(204).send(updatedVideo)
 }
 
 export const deleteVideoController = (req: Request, res: Response) => {
     const id = Number(req.params.id)
-    db.videos = db.videos.filter((video: IVideoDto) => id !== video.id)
-    res.status(404)
+    const video: IVideoDto = findVideoById(id)
+    if (video) {
+        db.videos = db.videos.filter((video: IVideoDto) => id !== video.id)
+        res.status(204).send('Видео удалено')
+    } else {
+        res.status(404).send('Видео не найдено')
+    }
 }
