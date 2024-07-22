@@ -78,6 +78,12 @@ const inputValidation = (video: IVideoDto) => {
             field: 'minAgeRestriction'
         })
     }
+    if (video.publicationDate && typeof video.publicationDate !== 'string') {
+        errors.errorsMessages.push({
+            message: 'Дата публикации должна быть числом',
+            field: 'publicationDate'
+        })
+    }
 
     return errors
 }
@@ -108,7 +114,11 @@ export const createVideoController = (req: Request<any, any, IVideoDto>, res: Re
 export const findVideoController = (req: Request, res: Response) => {
     const id = Number(req.params.id)
     const video = db.videos.find((video: IVideoDto) => id === video.id)
-    res.status(200).send(video)
+    if (video) {
+        res.status(200).send(video)
+    } else  {
+        res.status(404).send('Видео не найдено')
+    }
 }
 
 export const updateVideoController = (req: Request, res: Response<any | OutputErrorsType>) => {
