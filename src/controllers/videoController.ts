@@ -64,7 +64,6 @@ const inputValidation = (video: IVideoDto) => {
 
 export const createVideoController = (req: Request<any, any, IVideoDto>, res: Response<any | OutputErrorsType>) => {
     const {title, author, availableResolutions} = req.body
-    console.log(Number(title) === 0)
     const errors = inputValidation(req.body)
     if (errors.errorsMessages.length) {
         res.status(400).json(errors)
