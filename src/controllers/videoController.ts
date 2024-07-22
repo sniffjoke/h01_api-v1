@@ -65,6 +65,20 @@ const inputValidation = (video: IVideoDto) => {
         })
     }
 
+    if (typeof video.author === 'string' && video.author.length > 20) {
+        errors.errorsMessages.push({
+            message: 'Поле "Автор" не может быть более 20 символов',
+            field: 'author'
+        })
+    }
+
+    if (video.minAgeRestriction && video.minAgeRestriction?.toString().length > 18 || video.minAgeRestriction && video.minAgeRestriction?.toString().length < 1) {
+        errors.errorsMessages.push({
+            message: 'Введите корректный возраст',
+            field: 'minAgeRestriction'
+        })
+    }
+
     return errors
 }
 
