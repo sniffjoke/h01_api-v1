@@ -94,14 +94,30 @@ export const findVideoController = (req: Request, res: Response) => {
 export const updateVideoController = (req: Request, res: Response<any | OutputErrorsType>) => {
     const id = Number(req.params.id)
     const video: IVideoDto = findVideoById(id)
+    const {
+        title,
+        author,
+        availableResolutions,
+        createdAt,
+        canBeDownloaded,
+        minAgeRestriction,
+        publicationDate
+    } = req.body
     if (video) {
-        video.title = req.body.title
+        video.title = title
     }
     const updatedVideo: IVideoDto = {
         ...req.body,
-        title: video.title
+        id,
+        title: video.title,
+        author,
+        availableResolutions,
+        createdAt,
+        canBeDownloaded,
+        minAgeRestriction,
+        publicationDate,
     }
-    res.status(204).send(video)
+    res.status(204).send(updatedVideo)
 }
 
 export const deleteVideoController = (req: Request, res: Response) => {
