@@ -72,7 +72,7 @@ const inputValidation = (video: IVideoDto) => {
         })
     }
 
-    if (video.minAgeRestriction && video.minAgeRestriction?.toString().length > 18 || video.minAgeRestriction && video.minAgeRestriction?.toString().length < 1) {
+    if (video.minAgeRestriction && video.minAgeRestriction > 18 || video.minAgeRestriction && video.minAgeRestriction < 1) {
         errors.errorsMessages.push({
             message: 'Введите корректный возраст',
             field: 'minAgeRestriction'
