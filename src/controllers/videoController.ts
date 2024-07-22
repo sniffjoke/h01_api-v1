@@ -40,16 +40,22 @@ const inputValidation = (video: IVideoDto) => {
             field: 'title'
         })
     }
-    if (Number(video.title) !== 0 && !video.title || !video.author || !video.availableResolutions || video.title === null) {
+    if (Number(video.title) !== 0 && video.title !== null && !video.title || !video.author || !video.availableResolutions) {
         errors.errorsMessages.push({
             message: 'Название не может быть пустым',
             field: 'title'
         })
     }
-    if (Number(video.title) === 0) {
+    if (Number(video.title) === 0 && video.title !== null) {
         errors.errorsMessages.push({
             message: 'Название не может быть нолем',
             field: 'title'
+        })
+    }
+    if (typeof video.canBeDownloaded !== 'boolean') {
+        errors.errorsMessages.push({
+            message: 'Нужно указать булевое значение',
+            field: 'canBeDownloaded'
         })
     }
     // if (video.title.length > 40) {
@@ -92,6 +98,11 @@ export const findVideoController = (req: Request, res: Response) => {
 }
 
 export const updateVideoController = (req: Request, res: Response<any | OutputErrorsType>) => {
+    const errors = inputValidation(req.body)
+    if (errors.errorsMessages.length) {
+        res.status(400).json(errors)
+        return
+    }
     const id = Number(req.params.id)
     const video: IVideoDto = findVideoById(id)
     const {
