@@ -40,7 +40,7 @@ const inputValidation = (video: IVideoDto) => {
             field: 'title'
         })
     }
-    if (Number(video.title) !== 0 && !video.title || !video.author || !video.availableResolutions) {
+    if (Number(video.title) !== 0 && !video.title || !video.author || !video.availableResolutions || video.title === null) {
         errors.errorsMessages.push({
             message: 'Название не может быть пустым',
             field: 'title'
@@ -103,5 +103,5 @@ export const updateVideoController = (req: Request, res: Response) => {
 export const deleteVideoController = (req: Request, res: Response) => {
     const id = Number(req.params.id)
     db.videos = db.videos.filter((video: IVideoDto) => id !== video.id)
-    res.status(204)
+    res.status(404)
 }
